@@ -1,19 +1,11 @@
-FROM Ubuntu
+FROM tomcat:9
 
-RUN apt-get update –y 
+WORKDIR /usr/local/tomcat
 
-RUN apt-get install openjdk-8-jdk wget  -y 
+RUN mv webapps.dist/* webapps 
 
-WORKDIR /opt/ 
-
-RUN wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz.sha512
-
-RUN tar –xvzf apache-tomcat-9.0.89.tar.gz
-
-RUN mv apache-tomcat-9.0.89 tomcat
-
-COPY targetwelcomeapp.war  /opt/tomcat/webapps/
+COPY target/welcomeapp.war webapps/
 
 EXPOSE 8080
 
-CMD [“ /opt/tomcat/bin/catalina.sh”,”RUN”]
+CMD [“ /usr/local/tomcat/bin/catalina.sh”,”RUN”]
